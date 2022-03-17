@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: This template is used to deploy a lambda function
+Parameters:
+  FunctionName: 
+    Description: The name of the Lambda Function
+    Type: String
+  Runtime: 
+    Description: The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive. 
+    Type: String
+  S3Bucket: 
+    Description: An Amazon S3 bucket in the same AWS Region as your function.
+    Type: String
+  S3Key: 
+    Description: The Amazon S3 key of the deployment package.
+    Type: String
+  LambdaHandler: 
+    Description: The name of the method within your code that Lambda calls to execute your function. Handler is required if the deployment package is a .zip file archive.
+    Type: String
+  MemorySize: 
+    Description: The amount of memory available to the function at runtime. The default value is 128 MB. The value can be any multiple of 1 MB.
+    Type: String
+  Timeout: 
+    Description: >- 
+      The amount of time (in seconds) that Lambda allows a function to run before stopping it. 
+      The default is 3 seconds. The maximum allowed value is 900 seconds.
+    Type: String
+  RoleArn: 
+    Description: The Amazon Resource Name (ARN) of the function's execution role.
+    Type: String
+
+Resources:
+  LambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: !Ref FunctionName
+      Runtime: !Ref Runtime
+      Code:
+        S3Bucket: !Ref S3Bucket
+        S3Key: !Ref S3Key
+      Handler: !Ref LambdaHandler
+      MemorySize: !Ref MemorySize
+      Timeout: !Ref Timeout
+      Role: !Ref RoleArn
+
+Outputs:
+  LambdaFunctionName:
+    Description: The name of the lambda function
+    Value: !Ref LambdaFunction
+  LambdaFunctionName:
+    Description: The ARN of the lambda function
+    Value: 
+      Fn::GetAtt:
+        - LambdaFunction
+        - Arn
