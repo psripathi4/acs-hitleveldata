@@ -37,5 +37,5 @@ stages:
                     awsRegion: 'us-east-2'
                     awsCredentials: 'service_connection_psripathi_aws'
                     bucketName: 'acs-hit-level-data-store1'
-                    azdoArtifactPrefix: ''
+                    azdoArtifactPrefix: 'artifacts/hit_level_data_process_service'
                     lambdaServiceRoleARN: 'arn:aws:iam::684675566037:role/lambda-service-role'
