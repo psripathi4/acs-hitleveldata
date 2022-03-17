@@ -1,0 +1,34 @@
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.7.x'
+      addToPath: true
+      architecture: 'x64'
+  
+  - task: Bash@3
+    displayname: 'Run Tox Tests for service - Hit Level Data Processor'
+    inputs:
+      targetType: 'inline'
+      workingDirectory: './Services/hit_level_data_process_service/'
+      script: |
+        pwd
+        ls -ltr
+        python -m pip install --upgrade pip
+        pip install tox
+        sed -i 's/;/:/g' tox.ini
+        tox
+  
+  - task: PublishTestResults@2
+    condition: always()
+    inputs:
+      testRunTitle: 'Pipeline component - Hit Level Data Processor'
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '**/Services/hit_level_data_process_service/.reports/xml/jnuit_coverage.xml'
+      failTaskOnFailedTests: true
+  
+  - task: PublishCodeCoverageResults@1
+    inputs:
+      codeCoverageTool: 'JaCoCo'
+      summaryFileLocation: '**/Services/hit_level_data_process_service/.reports/html/index.html'
+      reportDirectory: '**/Services/hit_level_data_process_service/.reports/html'
+      additionalCodeCoverageFiles: '**/Services/hit_level_data_process_service/.reports/xml/junit_coverage.xml'
