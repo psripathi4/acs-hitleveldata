@@ -1,0 +1,41 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - master
+
+stages:
+  - stage: Build_Publish
+    jobs:
+      - job: Build
+        pool:
+          name: Azure Pipelines
+        steps:
+          template: build.yml
+  
+      - job: PublishBuildArtifacts
+        pool:
+          name: Azure Pipelines
+        steps:
+          - template: publish.yml
+
+  - stage: Deploy
+    dependsOn: Build_Publish
+    condition: succeeded()
+    jobs:
+      - deployment: DeployHitLevelDataProcessor
+        displayname: Deploy - Hit Level Data Processor
+        pool: 
+          name: Azure Pipelines
+        environment: DeployHitLevelDataProcessor
+        strategy:
+          runonce:
+            deploy:
+              steps:
+                - template: deploy.yml
+                  parameters:
+                    awsRegion: 'us-east-2'
+                    awsCredentials: 'service_connection_psripathi_aws'
+                    bucketName: 'acs-hit-level-data-store1'
+                    azdoArtifactPrefix: ''
+                    lambdaServiceRoleARN: 'arn:aws:iam::684675566037:role/lambda-service-role'

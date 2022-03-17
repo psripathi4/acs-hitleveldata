@@ -1,0 +1,76 @@
+parameters:
+  awsCredentials: ''
+  awsRegion: ''
+  bucketName: ''
+  azdoArtifactPrefix: ''
+  lambdaServiceRoleARN: ''
+
+
+steps:
+# Upload CFN Templates to S3
+- task: AmazonWebServices.aws-vsts-tools.S3Upload.S3Upload@1
+  displayName: 'S3 Upload: CFN Templates'
+  inputs:
+    awsCredentials: ${{ parameters.awsCredentials }}
+    regionName: ${{ parameters.awsRegion }}
+    bucketName: ${{ parameters.bucketName }}
+    sourceFolder: '$(Pipeline.Workspace)/cfn_artifacts'
+    targetFolder: '${{ parameters.azdoArtifactPrefix }}/cfn'
+    logRequest: true
+    logResponse: true
+
+# Upload Code Artifacts to S3
+- task: AmazonWebServices.aws-vsts-tools.S3Upload.S3Upload@1
+  displayName: 'S3 Upload: Code Artifacts'
+  inputs:
+    awsCredentials: ${{ parameters.awsCredentials }}
+    regionName: ${{ parameters.awsRegion }}
+    bucketName: ${{ parameters.bucketName }}
+    sourceFolder: '$(Pipeline.Workspace)/code_artifacts'
+    targetFolder: '${{ parameters.azdoArtifactPrefix }}/$(Build.BuildId)/lambda/'
+    logRequest: true
+    logResponse: true
+
+# Lambda - Process hit level data
+- task: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1
+  displayName: 'Create/Update Stack: Lambda to process Hit-Level Data'
+  inputs:
+    awsCredentials: ${{ parameters.awsCredentials }}
+    regionName: ${{ parameters.awsRegion }}
+    stackName: acs-hit-level-data-processor-lambda
+    templateSource: s3
+    s3BucketName: ${{ parameters.azdoArtifactBucket }}
+    s3ObjectKey: '${{ parameters.azdoArtifactPrefix }}/cfn/Lambda.yml'
+    templateParametersSource: inline
+    templateParameters: |
+      - 
+        ParameterKey: FunctionName
+        ParameterValue: acs-hit-level-data-processor
+      - 
+        ParameterKey: Runtime
+        ParameterValue: python3.7
+      - 
+        ParameterKey: S3Bucket
+        ParameterValue: ${{ parameters.bucketName }}
+      - 
+        ParameterKey: S3Key
+        ParameterValue: ${{ parameters.azdoArtifactPrefix }}/$(Build.BuildId)/lambda/process_hit_level_data_$(Build.BuildId).zip
+      - 
+        ParameterKey: LambdaHandler
+        ParameterValue: lambda_function.lambda_handler
+      - 
+        ParameterKey: MemorySize
+        ParameterValue: '256'
+      - 
+        ParameterKey: Timeout
+        ParameterValue: '120'
+      - 
+        ParameterKey: RoleArn
+        ParameterValue: ${{ parameters.lambdaServiceRoleARN }}
+    
+    roleARN: ${{ parameters.cfnRoleArn }}
+    captureStackOutputs: asVariables
+    logRequest: true
+    logResponse: true
+    timeoutInMins: 15
+  timeOutInMinutes: 15

@@ -1,0 +1,41 @@
+steps:
+
+# Build lambda artifacts
+# ----------------------
+- bash:
+    # zip lambda source - process_hit_level_data
+    sudo apt install zip unzip
+    cd Services/hit_level_data_process_service/src/process_hit_level_data
+    zip -r $(Build.ArtifactStagingDirectory)/process_hit_level_data_$(Build.BuildId).zip *
+
+  displayName: 'Zip process_hit_level_data src into a deployable artifact'
+
+# Copy and Load lambda artifacts to buffer space
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+  inputs:
+    SourceFolder: '$(Build.ArtifactStagingDirectory)'
+    contents: '*.zip'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Pipeline Artifact'
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifact: 'code_artifacts'
+
+
+# Copy and load CFN templates to buffer space
+# -------------------------------------------
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+  inputs:
+    SourceFolder: CloudFormation
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/cfn'
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Pipeline Artifact'
+  inputs:
+    SourceFolder: '$(Build.ArtifactStagingDirectory)'
+    TargetFolder: 'cfn_artifacts'
+
