@@ -16,7 +16,7 @@ steps:
         python -m pip install --upgrade pip
         pip install tox
         sed -i 's/;/:/g' tox.ini
-        tox -r
+        tox
   
   - task: PublishTestResults@2
     condition: always()
