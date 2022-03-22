@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: This template helps creates a topic to which notifications can be published.
+Parameters:
+  TopicName:
+    Type: String
+    Description: The name of the topic you want to create. FIFO topic names must end with .fifo.
+  Protocol:
+    Type: String
+    Description: The subscription's protocol.
+    AllowedValues:
+      - "http"
+      - "https"
+      - "email"
+      - "email-json"
+      - "sms"
+      - "sqs"
+      - "application"
+      - "lambda"
+      - "firehose"
+  Endpoint:
+    Type: String
+    Description: >-
+      The endpoint that receives notifications from the Amazon SNS topic. 
+      The endpoint value depends on the protocol that you specify.
+
+Resources:
+  SNSTopic:
+    Type: AWS::SNS::Topic
+    Properties: 
+      TopicName: !Ref TopicName
+      Subscription:
+        - Protocol: !Ref Protocol
+          Endpoint: !Ref Endpoint
+
+Outputs:
+  TopicArn:
+    Value: !Ref SNSTopic
+  TopicName:
+    Value: !GetAtt [SNSTopic, TopicName]
