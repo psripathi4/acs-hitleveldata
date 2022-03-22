@@ -1,14 +1,20 @@
 steps:
 
+# - bash:
+#     # zip lambda source - process_hit_level_data
+#     pip install zip unzip
+#     cd Services/hit_level_data_process_service/src/process_hit_level_data
+#     zip -r $(Build.ArtifactStagingDirectory)/process_hit_level_data_$(Build.BuildId).zip *
+
+#   displayName: 'Zip process_hit_level_data src into a deployable artifact'
+
 # Build lambda artifacts
 # ----------------------
-- bash:
-    # zip lambda source - process_hit_level_data
-    sudo apt install zip unzip
-    cd Services/hit_level_data_process_service/src/process_hit_level_data
-    zip -r $(Build.ArtifactStagingDirectory)/process_hit_level_data_$(Build.BuildId).zip *
-
-  displayName: 'Zip process_hit_level_data src into a deployable artifact'
+- task: ArchiveFiles@2
+  displayName: 'Archive process_hit_level_data'
+  inputs:
+    rootFolderOrFile: 'Services/hit_level_data_process_service/src/process_hit_level_data'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/process_hit_level_data_$(Build.BuildId).zip'
 
 # Copy and Load lambda artifacts to buffer space
 - task: CopyFiles@2

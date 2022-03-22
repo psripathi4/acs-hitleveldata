@@ -2,34 +2,38 @@ trigger:
   batch: true
   branches:
     include:
-      - master
+      - main
 
 stages:
-  - stage: Build_Publish
+  - stage: Build
     jobs:
       - job: Build
         pool:
-          name: Azure Pipelines
+          name: sripap1-local-pc
         steps:
-          template: build.yml
-  
+          - template: build.yml
+
+  - stage: Publish
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
       - job: PublishBuildArtifacts
         pool:
-          name: Azure Pipelines
+          name: sripap1-local-pc
         steps:
           - template: publish.yml
 
   - stage: Deploy
-    dependsOn: Build_Publish
+    dependsOn: Publish
     condition: succeeded()
     jobs:
       - deployment: DeployHitLevelDataProcessor
         displayName: Deploy - Hit Level Data Processor
         pool: 
-          name: Azure Pipelines
+          name: sripap1-local-pc
         environment: DeployHitLevelDataProcessor
         strategy:
-          runonce:
+          runOnce:
             deploy:
               steps:
                 - template: deploy.yml
@@ -37,6 +41,6 @@ stages:
                     awsRegion: 'us-east-2'
                     awsCredentials: 'service_connection_psripathi_aws'
                     bucketName: 'acs-hit-level-data-store1'
-                    cfnRoleArn: 'azdo-cfn-infa-role'
+                    cfnRoleArn: 'arn:aws:iam::684675566037:role/azdo-aws-cfn-infra-role'
                     azdoArtifactPrefix: 'artifacts/hit_level_data_process_service'
                     lambdaServiceRoleARN: 'arn:aws:iam::684675566037:role/lambda-service-role'
