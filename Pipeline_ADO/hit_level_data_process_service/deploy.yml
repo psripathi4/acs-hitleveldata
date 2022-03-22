@@ -74,7 +74,7 @@ steps:
     logRequest: true
     logResponse: true
     timeoutInMins: 15
-  timeOutInMinutes: 15
+  timeoutInMinutes: 15
 
 # SNS Topic - listen to process events
 - task: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1
@@ -103,4 +103,4 @@ steps:
     logRequest: true
     logResponse: true
     timeoutInMins: 15
-  timeOutInMinutes: 15
+  timeoutInMinutes: 15
