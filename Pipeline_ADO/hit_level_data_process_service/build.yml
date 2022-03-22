@@ -16,7 +16,7 @@ steps:
         python -m pip install --upgrade pip
         pip install tox
         sed -i 's/;/:/g' tox.ini
-        tox
+        tox -r
   
   - task: PublishTestResults@2
     condition: always()
@@ -29,6 +29,6 @@ steps:
   - task: PublishCodeCoverageResults@1
     inputs:
       codeCoverageTool: 'JaCoCo'
-      summaryFileLocation: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/html/index.html'
+      summaryFileLocation: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/xml/junit_coverage.xml'
       reportDirectory: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/html'
       additionalCodeCoverageFiles: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/xml/junit_coverage.xml'

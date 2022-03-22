@@ -4,7 +4,7 @@ steps:
 # ----------------------
 - bash:
     # zip lambda source - process_hit_level_data
-    sudo apt install zip unzip
+    pip install zip unzip
     cd Services/hit_level_data_process_service/src/process_hit_level_data
     zip -r $(Build.ArtifactStagingDirectory)/process_hit_level_data_$(Build.BuildId).zip *
 
