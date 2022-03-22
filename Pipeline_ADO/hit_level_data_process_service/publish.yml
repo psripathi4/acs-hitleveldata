@@ -37,11 +37,12 @@ steps:
   displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
   inputs:
     SourceFolder: CloudFormation
+    contents: '*.yml'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/cfn'
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish Pipeline Artifact'
   inputs:
-    SourceFolder: '$(Build.ArtifactStagingDirectory)'
+    SourceFolder: '$(Build.ArtifactStagingDirectory)/cfn'
     TargetFolder: 'cfn_artifacts'
 
