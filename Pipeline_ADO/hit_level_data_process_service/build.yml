@@ -6,7 +6,7 @@ steps:
       architecture: 'x64'
   
   - task: Bash@3
-    displayname: 'Run Tox Tests for service - Hit Level Data Processor'
+    displayName: 'Run Tox Tests for service - Hit Level Data Processor'
     inputs:
       targetType: 'inline'
       workingDirectory: './Services/hit_level_data_process_service/'
