@@ -11,7 +11,7 @@ stages:
         pool:
           name: Azure Pipelines
         steps:
-          template: build.yml
+          - template: build.yml
   
       - job: PublishBuildArtifacts
         pool:
@@ -29,7 +29,7 @@ stages:
           name: Azure Pipelines
         environment: DeployHitLevelDataProcessor
         strategy:
-          runonce:
+          runOnce:
             deploy:
               steps:
                 - template: deploy.yml
