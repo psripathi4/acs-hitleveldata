@@ -5,14 +5,18 @@ trigger:
       - main
 
 stages:
-  - stage: Build_Publish
+  - stage: Build
     jobs:
       - job: Build
         pool:
           name: sripap1-local-pc
         steps:
           - template: build.yml
-  
+
+  - stage: Publish
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
       - job: PublishBuildArtifacts
         pool:
           name: sripap1-local-pc
@@ -20,7 +24,7 @@ stages:
           - template: publish.yml
 
   - stage: Deploy
-    dependsOn: Build_Publish
+    dependsOn: Publish
     condition: succeeded()
     jobs:
       - deployment: DeployHitLevelDataProcessor
