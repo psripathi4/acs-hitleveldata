@@ -9,13 +9,13 @@ stages:
     jobs:
       - job: Build
         pool:
-          name: Default
+          name: sripap1-local-pc
         steps:
           - template: build.yml
   
       - job: PublishBuildArtifacts
         pool:
-          name: Default
+          name: sripap1-local-pc
         steps:
           - template: publish.yml
 
@@ -26,7 +26,7 @@ stages:
       - deployment: DeployHitLevelDataProcessor
         displayName: Deploy - Hit Level Data Processor
         pool: 
-          name: Default
+          name: sripap1-local-pc
         environment: DeployHitLevelDataProcessor
         strategy:
           runOnce:
