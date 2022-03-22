@@ -61,10 +61,10 @@ steps:
         ParameterValue: lambda_function.lambda_handler
       - 
         ParameterKey: MemorySize
-        ParameterValue: '256'
+        ParameterValue: 256
       - 
         ParameterKey: Timeout
-        ParameterValue: '120'
+        ParameterValue: 120
       - 
         ParameterKey: RoleArn
         ParameterValue: ${{ parameters.lambdaServiceRoleARN }}
