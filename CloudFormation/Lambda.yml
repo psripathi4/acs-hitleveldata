@@ -18,16 +18,12 @@ Parameters:
     Type: String
   MemorySize: 
     Description: The amount of memory available to the function at runtime. The default value is 128 MB. The value can be any multiple of 1 MB.
-    Type: Number
-    MinValue: 128
-    MaxValue: 10240
+    Type: String
   Timeout: 
     Description: >- 
       The amount of time (in seconds) that Lambda allows a function to run before stopping it. 
       The default is 3 seconds. The maximum allowed value is 900 seconds.
-    Type: Number
-    MinValue: 3
-    MaxValue: 900
+    Type: String
   RoleArn: 
     Description: The Amazon Resource Name (ARN) of the function's execution role.
     Type: String
