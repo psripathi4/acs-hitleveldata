@@ -40,7 +40,7 @@ steps:
     regionName: ${{ parameters.awsRegion }}
     stackName: lambda-acs-hit-level-data-processor
     templateSource: s3
-    s3BucketName: ${{ parameters.azdoArtifactBucket }}
+    s3BucketName: ${{ parameters.bucketName }}
     s3ObjectKey: '${{ parameters.azdoArtifactPrefix }}/cfn/Lambda.yml'
     templateParametersSource: inline
     templateParameters: |
@@ -84,7 +84,7 @@ steps:
     regionName: ${{ parameters.awsRegion }}
     stackName: topic-acs-hit-level-data-processor-events
     templateSource: s3
-    s3BucketName: ${{ parameters.azdoArtifactBucket }}
+    s3BucketName: ${{ parameters.bucketName }}
     s3ObjectKey: '${{ parameters.azdoArtifactPrefix }}/cfn/SNSTopic.yml'
     templateParametersSource: inline
     templateParameters: |
