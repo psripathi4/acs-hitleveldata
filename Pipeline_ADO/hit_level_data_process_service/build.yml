@@ -23,12 +23,12 @@ steps:
     inputs:
       testRunTitle: 'Pipeline component - Hit Level Data Processor'
       testResultsFormat: 'JUnit'
-      testResultsFiles: './Services/hit_level_data_process_service/.reports/xml/jnuit_coverage.xml'
+      testResultsFiles: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/xml/jnuit_coverage.xml'
       failTaskOnFailedTests: true
   
   - task: PublishCodeCoverageResults@1
     inputs:
       codeCoverageTool: 'JaCoCo'
-      summaryFileLocation: './Services/hit_level_data_process_service/.reports/html/index.html'
-      reportDirectory: './Services/hit_level_data_process_service/.reports/html'
-      additionalCodeCoverageFiles: './Services/hit_level_data_process_service/.reports/xml/junit_coverage.xml'
+      summaryFileLocation: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/html/index.html'
+      reportDirectory: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/html'
+      additionalCodeCoverageFiles: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/xml/junit_coverage.xml'
