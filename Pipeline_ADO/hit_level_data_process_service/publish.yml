@@ -39,9 +39,9 @@ steps:
     SourceFolder: CloudFormation
     TargetFolder: '$(Build.ArtifactStagingDirectory)/cfn'
 
-- task: PublishPipelineArtifact@1
-  displayName: 'Publish Pipeline Artifact'
-  inputs:
-    SourceFolder: '$(Build.ArtifactStagingDirectory)'
-    TargetFolder: 'cfn_artifacts'
+# - task: PublishPipelineArtifact@1
+#   displayName: 'Publish Pipeline Artifact'
+#   inputs:
+#     SourceFolder: '$(Build.ArtifactStagingDirectory)'
+#     TargetFolder: 'cfn_artifacts'
 

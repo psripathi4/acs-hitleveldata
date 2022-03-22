@@ -15,7 +15,7 @@ steps:
     awsCredentials: ${{ parameters.awsCredentials }}
     regionName: ${{ parameters.awsRegion }}
     bucketName: ${{ parameters.bucketName }}
-    sourceFolder: '$(Pipeline.Workspace)/cfn_artifacts'
+    sourceFolder: '$(Pipeline.Workspace)/a/cfn'
     targetFolder: '${{ parameters.azdoArtifactPrefix }}/cfn'
     logRequest: true
     logResponse: true
