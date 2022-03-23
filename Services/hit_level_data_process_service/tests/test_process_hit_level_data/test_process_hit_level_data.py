@@ -52,7 +52,7 @@ class ValidateKeywordExtraction(unittest.TestCase):
 class ValidateS3UploadResults(unittest.TestCase):
     patch_prefix = 'process_hit_level_data.lambda_function'
     s3_bucket = 'test-s3-bucket'
-    revenue = {'bing#zune': 250.0, 'google#ipod': 480.0}
+    revenue = {'bing.com#zune': 250.0, 'google.com#ipod': 480.0}
     s3_upload_fail_resp = {'Error': {'Code': 'NoSuchBucket', 'Message': 'An error occurred (NoSuchBucket) when calling the PutObject operation: The specified bucket does not exist'}, 'ResponseMetadata': {
         'HTTPStatusCode': 200}}
 

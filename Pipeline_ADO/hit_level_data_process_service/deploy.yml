@@ -75,32 +75,3 @@ steps:
     logResponse: true
     timeoutInMins: 15
   timeoutInMinutes: 15
-
-# SNS Topic - listen to process events
-- task: AmazonWebServices.aws-vsts-tools.CloudFormationCreateOrUpdateStack.CloudFormationCreateOrUpdateStack@1
-  displayName: 'Create/Update Stack: SNS Topic'
-  inputs:
-    awsCredentials: ${{ parameters.awsCredentials }}
-    regionName: ${{ parameters.awsRegion }}
-    stackName: topic-acs-hit-level-data-processor-events
-    templateSource: s3
-    s3BucketName: ${{ parameters.bucketName }}
-    s3ObjectKey: '${{ parameters.azdoArtifactPrefix }}/cfn/SNSTopic.yml'
-    templateParametersSource: inline
-    templateParameters: |
-      - 
-        ParameterKey: TopicName
-        ParameterValue: acs-hit-level-data-processor-events
-      - 
-        ParameterKey: Protocol
-        ParameterValue: email
-      - 
-        ParameterKey: Endpoint
-        ParameterValue: 'contact@psripathi.com'
-    
-    roleARN: ${{ parameters.cfnRoleArn }}
-    captureStackOutputs: asVariables
-    logRequest: true
-    logResponse: true
-    timeoutInMins: 15
-  timeoutInMinutes: 15

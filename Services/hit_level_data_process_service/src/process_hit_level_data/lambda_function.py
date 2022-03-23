@@ -154,7 +154,8 @@ class ProcessHitLevelData:
             for row in reader:
                 try:
                     ip = row[3]
-                    domain = row[-1].split('/')[2].split('.')[1]
+                    website = row[-1].split('/')[2].split('.')
+                    domain, suffix = website[1], website[2]
 
                     if domain != 'esshopzilla':
                         keyword = keyword = self.extract_keyword(
@@ -168,14 +169,13 @@ class ProcessHitLevelData:
                                 self.grief.append(row)
                             else:
                                 self.activity[ip] = {
-                                    row[0]: f'{domain}#{keyword}'}
+                                    row[0]: f'{domain}.{suffix}#{keyword}'}
                     else:
                         event = row[4]  # Get the event
 
                         # Only calculate self.revenue if a purchase has been made
                         if domain == 'esshopzilla':
                             if event == '1':
-                                print(self.activity[ip])
                                 hittimegmt = sorted(
                                     self.activity[ip].keys())[-1]
                                 dom_key = self.activity[ip][hittimegmt]
@@ -200,7 +200,8 @@ class ProcessHitLevelData:
                                     # Invalid self.revenue in product_list
                                     self.grief.append(row)
                         else:
-                            self.activity[ip][row[0]] = f'{domain}#{keyword}'
+                            self.activity[ip][row[0]
+                                              ] = f'{domain}.{suffix}#{keyword}'
 
                 except Exception as ex:
                     logger.error(ex)
