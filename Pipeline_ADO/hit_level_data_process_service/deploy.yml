@@ -58,7 +58,7 @@ steps:
         ParameterValue: ${{ parameters.azdoArtifactPrefix }}/$(Build.BuildId)/lambda/process_hit_level_data_$(Build.BuildId).zip
       - 
         ParameterKey: LambdaHandler
-        ParameterValue: lambda_function.lambda_handler
+        ParameterValue: process_hit_level_data.lambda_function.lambda_handler
       - 
         ParameterKey: MemorySize
         ParameterValue: '256'
