@@ -26,13 +26,6 @@ steps:
       testResultsFiles: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/xml/junit_coverage.xml'
       failTaskOnFailedTests: true
   
-  # - task: PublishCodeCoverageResults@1
-  #   inputs:
-  #     codeCoverageTool: 'JaCoCo'
-  #     summaryFileLocation: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/xml/junit_coverage.xml'
-  #     reportDirectory: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/html'
-  #     additionalCodeCoverageFiles: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/xml/junit_coverage.xml'
-
   - task: PublishCodeCoverageResults@1
     inputs:
       codeCoverageTool: Cobertura
