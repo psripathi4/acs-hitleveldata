@@ -28,7 +28,5 @@ steps:
   
   - task: PublishCodeCoverageResults@1
     inputs:
-      codeCoverageTool: 'JaCoCo'
-      summaryFileLocation: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/xml/junit_coverage.xml'
-      reportDirectory: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/html'
-      additionalCodeCoverageFiles: '$(Build.SourcesDirectory)/Services/hit_level_data_process_service/.reports/xml/junit_coverage.xml'
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
