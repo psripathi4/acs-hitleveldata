@@ -18,6 +18,8 @@ def lambda_handler(event: dict, context: dict) -> dict:
     """
     final_response = []
 
+    logger.info(f'Incoming event - {event}')
+
     for event_record in event['Records']:
 
         lambda_executor = ProcessHitLevelData()
