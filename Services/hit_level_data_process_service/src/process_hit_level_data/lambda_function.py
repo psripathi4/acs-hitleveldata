@@ -2,6 +2,7 @@ import csv
 import boto3
 import logging
 from io import StringIO
+from urllib import parse
 from datetime import date
 from botocore.exceptions import ClientError
 
@@ -9,7 +10,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-def lambda_handler(event: dict, context: dict) -> dict:
+def lambda_handler(event: dict, context: dict) -> list:
     """
     Lambda handler to process the incoming event payload
     :param event: Lambda event payload
@@ -92,7 +93,7 @@ class ProcessHitLevelData:
             # Add spaces to multi-word search string
             keyword = keyword.replace('+', ' ').lower()
 
-        return keyword
+        return parse.unquote(keyword)   # Decodes percent-encode parameters
 
     def publish_output_to_s3(self, s3_bucket: str) -> dict:
         """
