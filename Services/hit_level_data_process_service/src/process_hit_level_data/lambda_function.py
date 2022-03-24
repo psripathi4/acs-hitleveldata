@@ -46,7 +46,7 @@ class ProcessHitLevelData:
 
     def get_revenue(self, product_list: str) -> float:
         """
-        Helper function to calculate the total self.revenue of the products purchased.
+        Helper function to calculate the total revenue of the products purchased.
 
         :param product_list: comma delimited list of products with a semi-colon delimited list of attributes for each product
         :return: float - A response object by the s3 prefix in the event and its process status
@@ -97,7 +97,7 @@ class ProcessHitLevelData:
 
     def publish_output_to_s3(self, s3_bucket: str) -> dict:
         """
-        Helper function to process the self.revenue object in sorted order and publish the output file to S3
+        Helper function to process the revenue object in sorted order and publish the output file to S3
 
         :param s3_bucket: The s3 bucket name
         :return: dict - S3 upload resonse
@@ -131,7 +131,7 @@ class ProcessHitLevelData:
 
     def calculate_revenue_off_search_engines(self, record: dict) -> bool:
         """
-        Function to calculate the self.revenue by processing the incoming tsv file.
+        Function to calculate the revenue by processing the incoming tsv file.
 
         :param record: The S3 ObjectCreated:Put event record
         :return: bool - True/False if the file was processed successfully
@@ -174,7 +174,7 @@ class ProcessHitLevelData:
                     else:
                         event = row[4]  # Get the event
 
-                        # Only calculate self.revenue if a purchase has been made
+                        # Only calculate revenue if a purchase has been made
                         if domain == 'esshopzilla':
                             if event == '1':
                                 hittimegmt = sorted(
@@ -185,12 +185,12 @@ class ProcessHitLevelData:
 
                                 if prod_list_rev is not None:
 
-                                    # If domain#keyword already exists, add it to the total self.revenue
+                                    # If domain#keyword already exists, add it to the total revenue
                                     if dom_key in self.revenue:
                                         self.revenue[dom_key] += prod_list_rev
                                         del self.activity[ip][hittimegmt]
                                     else:
-                                        # If new domain#keyword, add it to self.revenue
+                                        # If new domain#keyword, add it to revenue
                                         self.revenue[dom_key] = prod_list_rev
                                         del self.activity[ip][hittimegmt]
 
@@ -198,7 +198,7 @@ class ProcessHitLevelData:
                                     if len(self.activity[ip]) == 0:
                                         del self.activity[ip]
                                 else:
-                                    # Invalid self.revenue in product_list
+                                    # Invalid revenue in product_list
                                     self.grief.append(row)
                         else:
                             self.activity[ip][row[0]
